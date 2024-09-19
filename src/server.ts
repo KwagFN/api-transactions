@@ -1,16 +1,10 @@
 import fastify from 'fastify'
-import { SqliteHelper } from './database'
 import { env } from './env'
+import { transactionsRoutes } from './routes/transactions'
 
 const app = fastify()
 
-app.get('/hello', async () => {
-  const transactions = await SqliteHelper('transactions')
-    .where('amount', 1000)
-    .select('*')
-
-  return transactions
-})
+app.register(transactionsRoutes)
 
 app
   .listen({
