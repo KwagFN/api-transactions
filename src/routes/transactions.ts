@@ -28,6 +28,16 @@ export async function transactionsRoutes(app: FastifyInstance) {
     }
   })
 
+  app.get('/summary', async () => {
+    const transactions = await SqliteHelper('transactions')
+      .sum('amount', { as: 'balance' })
+      .first()
+
+    return {
+      summary: transactions,
+    }
+  })
+
   app.post('/', async (request, reply) => {
     const createTransactionBodySchema = z.object({
       title: z.string(),

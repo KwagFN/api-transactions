@@ -1,9 +1,9 @@
 # RF (Requisitos funcionais)
 
 - [X] O Usuário pode criar uma nova transação;
-- [ ] O Usuário pode obter um resumo da sua conta;
-- [ ] O Usuário deve poder listar as transações que já ocorreram;
-- [ ] O Usuário pode visualizar uma transação única;
+- [X] O Usuário pode obter um resumo da sua conta;
+- [X] O Usuário deve poder listar as transações que já ocorreram;
+- [X] O Usuário pode visualizar uma transação única;
 
 # RN (Regras de negócio)
 
