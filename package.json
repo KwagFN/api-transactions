@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "postinstall": "npx husky init"
+    "postinstall": "npx husky init",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^22.5.5",
     "eslint": "^9.10.0",
+    "git-commit-msg-linter": "^5.0.8",
     "globals": "^15.9.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
