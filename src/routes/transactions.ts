@@ -49,11 +49,22 @@ export async function transactionsRoutes(app: FastifyInstance) {
       request.body,
     )
 
+    let sessionId = request.cookies.sessionId
+
+    if (!sessionId) {
+      sessionId = randomUUID()
+
+      reply.cookie('sessionId', sessionId, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      })
+    }
+
     await SqliteHelper('transactions').insert({
       id: randomUUID(),
       title: title,
       amount: type == 'credit' ? amount : amount * -1,
-      session_id: randomUUID(),
+      session_id: sessionId,
     })
 
     return reply.status(201).send('Transaction created successfuly.')
