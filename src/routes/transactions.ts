@@ -2,41 +2,70 @@ import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { randomUUID } from 'node:crypto'
 import { SqliteHelper } from '../database'
+import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function transactionsRoutes(app: FastifyInstance) {
-  app.get('/', async () => {
-    const transactions = await SqliteHelper('transactions').select('*')
+  app.get(
+    '/',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const { sessionId } = request.cookies
 
-    return {
-      transactions: transactions,
-    }
-  })
+      const transactions = await SqliteHelper('transactions')
+        .where('session_id', sessionId)
+        .select('*')
 
-  app.get('/:id', async (request) => {
-    const getTransactionById = z.object({
-      id: z.string().uuid(),
-    })
+      return {
+        transactions: transactions,
+      }
+    },
+  )
 
-    const { id } = getTransactionById.parse(request.params)
+  app.get(
+    '/:id',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const getTransactionById = z.object({
+        id: z.string().uuid(),
+      })
+      const { sessionId } = request.cookies
 
-    const transaction = await SqliteHelper('transactions')
-      .where('id', id)
-      .first()
+      const { id } = getTransactionById.parse(request.params)
 
-    return {
-      transaction,
-    }
-  })
+      const transaction = await SqliteHelper('transactions')
+        .where({
+          session_id: sessionId,
+          id,
+        })
+        .first()
 
-  app.get('/summary', async () => {
-    const transactions = await SqliteHelper('transactions')
-      .sum('amount', { as: 'balance' })
-      .first()
+      return {
+        transaction,
+      }
+    },
+  )
 
-    return {
-      summary: transactions,
-    }
-  })
+  app.get(
+    '/summary',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const { sessionId } = request.cookies
+      const transactions = await SqliteHelper('transactions')
+        .where('session_id', sessionId)
+        .sum('amount', { as: 'balance' })
+        .first()
+
+      return {
+        summary: transactions,
+      }
+    },
+  )
 
   app.post('/', async (request, reply) => {
     const createTransactionBodySchema = z.object({
