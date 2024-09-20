@@ -7,6 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "knex": "npx tsx ./node_modules/knex/bin/cli.js",
     "postinstall": "npx husky init",
+    "build": "tsup src --out-dir build",
     "prepare": "husky",
     "test": "vitest"
   },
@@ -26,6 +27,7 @@
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "supertest": "^7.0.0",
+    "tsup": "^8.3.0",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.6.0",
