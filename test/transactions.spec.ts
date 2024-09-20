@@ -1,4 +1,5 @@
-import { test, beforeAll, afterAll, describe, expect } from 'vitest'
+import { test, beforeAll, afterAll, describe, expect, beforeEach } from 'vitest'
+import { execSync } from 'node:child_process'
 import request from 'supertest'
 import { app } from '../src/app'
 
@@ -9,6 +10,11 @@ describe('Transactions routes', () => {
 
   afterAll(async () => {
     await app.close()
+  })
+
+  beforeEach(() => {
+    execSync('npm run knex migrate:rollback --all')
+    execSync('npm run knex migrate:latest')
   })
 
   test('User can create a new transaction', async () => {
@@ -44,5 +50,36 @@ describe('Transactions routes', () => {
         amount: 5000,
       }),
     ])
+  })
+
+  test('User can get a specific transaction', async () => {
+    const createTransactionResponse = await request(app.server)
+      .post('/api/transactions')
+      .send({
+        title: 'New Transaction',
+        amount: 5000,
+        type: 'credit',
+      })
+
+    const cookies = createTransactionResponse.get('Set-Cookie')
+
+    const listTransactionsResponse = await request(app.server)
+      .get('/api/transactions')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    const transactionId = listTransactionsResponse.body.transactions[0].id
+
+    const getTransactionResponse = await request(app.server)
+      .get(`/api/transactions/${transactionId}`)
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(getTransactionResponse.body.transaction).toEqual(
+      expect.objectContaining({
+        title: 'New Transaction',
+        amount: 5000,
+      }),
+    )
   })
 })
