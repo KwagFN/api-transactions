@@ -1,12 +1,42 @@
-# RF (Requisitos funcionais)
+# API Transactions
 
-- [X] O Usuário pode criar uma nova transação;
-- [X] O Usuário pode obter um resumo da sua conta;
-- [X] O Usuário deve poder listar as transações que já ocorreram;
-- [X] O Usuário pode visualizar uma transação única;
+Este projeto é uma API de gerenciamento de transações financeiras, permitindo que os usuários realizem operações como criar transações, obter um resumo financeiro e listar ou visualizar transações específicas. A API foi desenvolvida utilizando **Node.js** e **TypeScript**, com integração de banco de dados **PostgreSQL** para persistência de dados.
 
-# RN (Regras de negócio)
+## Funcionalidades
 
-- [X] A transação pode ser do crédito que somará ao valor total, ou débito que subtrairá;
-- [ ] Deve ser possível identificarmos o usuário entre as requisições;
-- [ ] Usuário só pode visualizar transações que ele criou;
+### Requisitos Funcionais (RF)
+- [x] Criar uma nova transação (crédito ou débito)
+- [x] Obter um resumo do saldo do usuário
+- [x] Listar todas as transações do usuário
+- [x] Visualizar detalhes de uma transação específica
+
+### Regras de Negócio (RN)
+- [x] As transações podem ser de dois tipos: **crédito** (adiciona ao saldo) ou **débito** (subtrai do saldo)
+- [x] Apenas o usuário que criou a transação pode visualizá-la
+- [x] O saldo é atualizado automaticamente após cada transação
+
+## Instalação
+
+Siga os passos abaixo para rodar a aplicação localmente:
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/KwagFN/api-transactions.git
+   ```
+
+2. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Execute a aplicação:
+   ```bash
+   npm run start:dev
+   ```
+
+## Tecnologias Utilizadas
+
+- **Node.js** com TypeScript
+- **Fastify** para gerenciamento de rotas HTTP
+- **Zod** para validação de dados
+- **Knex** como QueryBuilder
