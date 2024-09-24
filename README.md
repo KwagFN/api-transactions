@@ -1,6 +1,6 @@
 # API Transactions
 
-Este projeto é uma API de gerenciamento de transações financeiras, permitindo que os usuários realizem operações como criar transações, obter um resumo financeiro e listar ou visualizar transações específicas. A API foi desenvolvida utilizando **Node.js** e **TypeScript**, com integração de banco de dados **PostgreSQL** para persistência de dados.
+Este projeto é uma API de gerenciamento de transações financeiras, permitindo que os usuários realizem operações como criar transações, obter um resumo financeiro e listar ou visualizar transações específicas. A API foi desenvolvida utilizando **Node.js** e **TypeScript**, com integração de banco de dados **SQLite** para persistência de dados.
 
 ## Funcionalidades
 
